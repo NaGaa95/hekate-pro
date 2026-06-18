@@ -1742,7 +1742,7 @@ static lv_res_t _create_mbox_sd_vendor_info(lv_obj_t * btn)
 	lv_obj_set_width(lb_desc2, LV_HOR_RES / 9 * 2);
 	lv_obj_align(lb_desc2, lb_desc, LV_ALIGN_OUT_RIGHT_TOP, 0, 0);
 
-	if (sd_mount())
+	if (!sd_mount())
 	{
 		lv_label_set_text(lb_desc, "#FFDD00 Failed to init SD!#");
 		goto out;
@@ -1806,7 +1806,7 @@ static lv_res_t _create_mbox_sd_vendor_info(lv_obj_t * btn)
 		sd_info.ssr_rsvd424_427,
 		sd_info.ssr_rsvd496_501);
 
-	if (!sdmmc_storage_gen_cmd(&sd_storage, 0x00000001, buf))
+	if (sdmmc_storage_gen_cmd(&sd_storage, 0x00000001, buf))
 	{
 		const u32 health_rpt_args[] = {
 			0x00000001, // Sandisk.
